@@ -44,7 +44,7 @@ fun CurrencyListItem(
 
         Text(
             modifier = Modifier
-                .padding(start = 24.dp),
+                .padding(horizontal = 16.dp),
             text = currency.name,
             color = Pink40,
             style = MaterialTheme.typography.titleMedium,
@@ -52,7 +52,7 @@ fun CurrencyListItem(
 
         Text(
             modifier = Modifier
-                .padding(vertical = 16.dp),
+                .padding(horizontal = 16.dp),
             text = currency.code ?: currency.symbol,
             color = Pink40,
             style = MaterialTheme.typography.titleMedium,

@@ -7,7 +7,7 @@ message CurrencyInfo {
   string id = 1;
   string name = 2;
   string symbol = 3;
-  optional string code = 4;
+  string code = 4;
 }
 
 message Currencies {

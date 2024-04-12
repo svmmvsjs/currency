@@ -40,7 +40,7 @@ class CurrencyViewModel @Inject constructor(
         runCatching {
             fetchCurrenciesUseCase()
         }.onFailure {
-            Timber.e(it, "Fetch Remote Regions Fail")
+            Timber.e(it, "Fetch Currencies Fail")
         }.also {
             _uiState.update { it.copy(isLoading = false) }
         }

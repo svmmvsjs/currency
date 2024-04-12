@@ -13,8 +13,8 @@ internal class ApiRepositoryImpl @Inject constructor(
     override suspend fun getApiCurrencies(): List<Currency> = withContext(ioDispatcher) {
         // Fake data instead of API gateway
         listOf(
-            Currency(id = "BTC", name = "Bitcoin", symbol = "BTC"),
-            Currency(id = "ETH", name = "Ethereum", symbol = "ETH"),
+            Currency(id = "BTC", name = "Bitcoin", symbol = "BTC", code = "BTC"),
+            Currency(id = "ETH", name = "Ethereum", symbol = "ETH", code = "ETH"),
         )
     }
 }
