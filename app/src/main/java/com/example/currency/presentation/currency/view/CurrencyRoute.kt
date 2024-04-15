@@ -1,5 +1,6 @@
 package com.example.currency.presentation.currency.view
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,12 +38,34 @@ internal fun CurrencyRoute(
     if (uiState.isLoading) {
         LoadingScreen()
     } else {
-        CurrencyListFragment(
-            cryptoList = uiState.cryptoList,
-            fiatList = uiState.fiatList,
-            selectedCurrency = uiState.selectedCurrency,
-            onBackIconPressed = onBackIconPressed,
-        )
+
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                Button(onClick = { viewModel.fetchCurrencies() }) {
+                    Text(text = "Refresh")
+                }
+
+                Button(onClick = { viewModel.setCurrencyType(CurrencyType.CRYPTO) }) {
+                    Text(text = "Crypto")
+                }
+
+                Button(onClick = { viewModel.setCurrencyType(CurrencyType.FIAT) }) {
+                    Text(text = "Fiat")
+                }
+            }
+
+            CurrencyListFragment(
+                cryptoList = uiState.cryptoList,
+                fiatList = uiState.fiatList,
+                selectedCurrency = uiState.selectedCurrency,
+                onBackIconPressed = onBackIconPressed,
+            )
+        }
     }
 }
 
@@ -54,16 +78,12 @@ internal fun CurrencyListFragment(
     onBackIconPressed: () -> Unit,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
-
-        when (selectedCurrency) {
-            CurrencyType.CRYPTO -> CurrencyList(
-                currencyList = cryptoList,
-            )
-
-            CurrencyType.FIAT -> CurrencyList(
-                currencyList = fiatList,
-            )
-        }
+        CurrencyList(
+            currencyList = when (selectedCurrency) {
+                CurrencyType.CRYPTO -> cryptoList
+                CurrencyType.FIAT -> fiatList
+            }
+        )
     }
 }
 
@@ -81,7 +101,7 @@ private fun CurrencyList(
             item {
                 SectionTitle {
                     Text(
-                        text = "Cryptocurrency List",
+                        text = "Currency List",
                         color = Pink80,
                     )
                 }

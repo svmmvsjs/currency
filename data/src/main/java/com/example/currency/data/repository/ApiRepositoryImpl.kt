@@ -15,6 +15,8 @@ internal class ApiRepositoryImpl @Inject constructor(
         listOf(
             Currency(id = "BTC", name = "Bitcoin", symbol = "BTC", code = "BTC"),
             Currency(id = "ETH", name = "Ethereum", symbol = "ETH", code = "ETH"),
+            Currency(id = "EUR", name = "Euro", symbol = "E", code = "EUR"),
+            Currency(id = "USD", name = "US Dollar", symbol = "$", code = "USD"),
         )
     }
 }

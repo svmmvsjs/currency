@@ -2,6 +2,7 @@ package com.example.currency.presentation.currency
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.currency.domain.entity.CurrencyType
 import com.example.currency.domain.usecase.FetchCurrenciesUseCase
 import com.example.currency.domain.usecase.MonitorCurrenciesUseCase
 import com.example.currency.presentation.currency.model.CurrencyUIState
@@ -36,8 +37,9 @@ class CurrencyViewModel @Inject constructor(
     /**
      * Fetch remote currencies
      */
-    private fun fetchCurrencies() = viewModelScope.launch {
+    fun fetchCurrencies() = viewModelScope.launch {
         runCatching {
+            Timber.d("Fetching Currencies")
             fetchCurrenciesUseCase()
         }.onFailure {
             Timber.e(it, "Fetch Currencies Fail")
@@ -58,10 +60,15 @@ class CurrencyViewModel @Inject constructor(
             .collectLatest { currencies ->
                 _uiState.update {
                     it.copy(
-                        cryptoList = currencies,
-                        fiatList = currencies,
+                        // use separate monitor use cases or combine(use cases)
+                        cryptoList = currencies.take(2),
+                        fiatList = currencies.drop(2),
                     )
                 }
             }
+    }
+
+    fun setCurrencyType(currencyType: CurrencyType) = viewModelScope.launch {
+        _uiState.update { it.copy(selectedCurrency = currencyType) }
     }
 }
